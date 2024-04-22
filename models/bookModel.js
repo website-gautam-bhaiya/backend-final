@@ -12,7 +12,8 @@ const bookSchema = new mongoose.Schema( {
     ISBNCode: {
         
         type: Number,
-        required: [true, "A book must have a corresponding ISBN Code!"]
+        required: [true, "A book must have a corresponding ISBN Code!"],
+        unique: true
     },
 
     author: {
