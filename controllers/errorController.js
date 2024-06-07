@@ -1,6 +1,5 @@
 
 const AppError = require('../utils/AppError')
-const { login } = require('./authController')
 
 const sendErrorDev = (err, res) => { 
     res.status(err.statusCode).json({

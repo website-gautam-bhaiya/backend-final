@@ -36,6 +36,11 @@ const bookSchema = new mongoose.Schema( {
             type: Boolean,
             required: [true, "A book must specify if it's for self help!!"]
         }
+    },
+
+    link: {
+        type: String,
+        required: [true, "A book must have a link!"]
     }
 
 })
