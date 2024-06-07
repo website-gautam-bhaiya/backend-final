@@ -21,6 +21,7 @@ exports.publishBook = catchAsyncErrors( async (req, res, next) => {
         title: req.body.title,
         author: req.body.author,
         ISBNCode: req.body.ISBNCode,
+        link: req.body.link,
         options: req.body.options,
     })
 
