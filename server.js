@@ -6,10 +6,10 @@ const https = require('https');
 dotenv.config({ path: ".env" });
 
 // SSL options (uncomment if using HTTPS)
-//const options = {
-//    key: fs.readFileSync('./../ssl--certificates/decrypted-key.pem'),
-//    cert: fs.readFileSync('./../ssl--certificates/cert.pem')
-//};
+const options = {
+    key: fs.readFileSync('./../ssl--certificates/decrypted-key.pem'),
+    cert: fs.readFileSync('./../ssl--certificates/cert.pem')
+};
 
 // MongoDB connection
 const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
