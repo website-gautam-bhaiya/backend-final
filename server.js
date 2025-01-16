@@ -6,8 +6,9 @@ const https = require('https');
 dotenv.config({ path: ".env" });
 
 // SSL options (uncomment if using HTTPS)
+const path = require('path');
 const options = {
-    key: fs.readFileSync('ssl--certificates/key.pem'),
+    key: fs.readFileSync(path.join(__dirname, 'ssl--certificates/decrypted-key.pem')),
     cert: fs.readFileSync('ssl--certificates/cert.pem')
 };
 
