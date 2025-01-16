@@ -6,10 +6,10 @@ const app = require('./app')
 const https = require('https')
 dotenv.config( { path: ".env" } )
 
-// const options = {
-//     key: fs.readFileSync('./../ssl--certificates/decrypted-key.pem'),
-//     cert: fs.readFileSync('./../ssl--certificates/cert.pem')
-// };
+const options = {
+     key: fs.readFileSync('./../ssl--certificates/decrypted-key.pem'),
+     cert: fs.readFileSync('./../ssl--certificates/cert.pem')
+ };
 
 
 const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD)
