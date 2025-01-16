@@ -22,7 +22,7 @@ mongoose.connect(DB, {
 const port = process.env.PORT || 3000;  
 // const server = https.createServer(options, app).listen(port,  () => console.log(`App running on PORT:${port}...`))
 
-// const server = app.listen(port, () => console.log(`App running on PORT:${port}...`))
+const server = app.listen(port, () => console.log(`App running on PORT:${port}...`))
 
 process.on('unhandledRejection', err => {
     
