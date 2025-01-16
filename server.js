@@ -9,7 +9,7 @@ dotenv.config({ path: ".env" });
 const path = require('path');
 const options = {
     key: fs.readFileSync(path.join(__dirname, 'ssl--certificates/decrypted-key.pem')),
-    cert: fs.readFileSync('ssl--certificates/cert.pem')
+    cert: fs.readFileSync(path.join(__dirname, 'ssl--certificates/cert.pem')
 };
 
 // MongoDB connection
