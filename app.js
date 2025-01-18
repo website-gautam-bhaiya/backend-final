@@ -20,7 +20,7 @@ const app = express();
 
 app.use(cors({
     credentials: true, 
-    origin: 'https://frontend-r88rxirom-works-projects-3b17f884.vercel.app'
+    origin: 'https://frontend-five-mauve.vercel.app'
 })) 
 
 if(process.env.NODE_ENV === 'development') {
