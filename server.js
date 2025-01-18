@@ -21,7 +21,7 @@ try {
 const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
 const connectWithRetry = async () => {
     try {
-        await mongoose.connect(DB, { useUnifiedTopology: true });
+        await mongoose.connect(DB, { useNewUrlParser: true });
         console.log("DB Connection Successful!");
     } catch (err) {
         console.error("MongoDB connection failed. Retrying in 5 seconds...");
