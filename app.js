@@ -1,57 +1,65 @@
-const express = require('express')
-const morgan = require('morgan')
+const express = require('express');
+const morgan = require('morgan');
 
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize')
-const xss = require('xss-clean')
-const path = require('path')
-const globalErrorHandler = require('./controllers/errorController')
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const path = require('path');
+const globalErrorHandler = require('./controllers/errorController');
 
-const AppError = require('./utils/AppError')
+const AppError = require('./utils/AppError');
 
-const articleRouter = require('./routes/articleRoutes')
-const userRouter = require('./routes/userRoutes')
-const stockRouter = require('./routes/stockRoutes') 
-const bookRouter = require('./routes/bookRoutes')
+const articleRouter = require('./routes/articleRoutes');
+const userRouter = require('./routes/userRoutes');
+const stockRouter = require('./routes/stockRoutes');
+const bookRouter = require('./routes/bookRoutes');
 
-const app = express(); 
+const app = express();
 
-app.use(cors({
-    credentials: true, 
-    origin: 'https://frontend-five-mauve.vercel.app'
-})) 
+app.use(
+  cors({
+    credentials: true,
+    origin: 'https://frontend-five-mauve.vercel.app',
+  })
+);
 
-if(process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'))
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
 }
 
-app.use(express.json())
+app.use(express.json());
 
+// -> Middleware to sanitize the incoming data and prevent NoSQL Injections
+app.use(mongoSanitize());
 
-// -> Middleware to sanitize the incoming data and prevent NoSQL Injections (removes $ from the body as in MongoDB, operators have $ as prefix.)
-app.use(mongoSanitize())
+// -> Middleware to prevent XSS Attacks
+app.use(xss());
 
+app.use(cookieParser());
 
-// -> Middleware to prevent XSS Attacks, injecting JS code with some HTML code into incoming data, this middleware cleans it.
-app.use(xss())
+// Define routes
+app.use('/api/v1/articles', articleRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/stocks', stockRouter);
+app.use('/api/v1/books', bookRouter);
+app.use('/images', express.static(path.join(__dirname, 'public', 'articleImages')));
 
+// Add a default route for `/`
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'Welcome to the Backend Server!',
+  });
+});
 
-
-app.use(cookieParser())
- 
-
-app.use('/api/v1/articles', articleRouter) 
-app.use('/api/v1/users', userRouter)
-app.use('/api/v1/stocks', stockRouter) 
-app.use('/api/v1/books',bookRouter)
-app.use('/images', express.static( path.join(__dirname, 'public', 'articleImages') ) )
-
-
+// Handle all other undefined routes
 app.all('*', (req, res, next) => {
-    next( new AppError(`Can't find ${req.originalUrl} ! Please try a different route.`, 404) )
-})
+  next(new AppError(`Can't find ${req.originalUrl} ! Please try a different route.`, 404));
+});
 
-app.use(globalErrorHandler)
+// Global error handler
+app.use(globalErrorHandler);
+
 module.exports = app;
