@@ -18,16 +18,18 @@ try {
 }
 
 // MongoDB connection
-const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
+const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+
 const connectWithRetry = async () => {
     try {
-        await mongoose.connect(DB, { useNewUrlParser: true });
-        console.log("DB Connection Successful!");
+        await mongoose.connect(DB); // No need for deprecated options
+        console.log('DB Connection Successful!');
     } catch (err) {
-        console.error("MongoDB connection failed. Retrying in 5 seconds...");
-        setTimeout(connectWithRetry, 5000);
+        console.error('MongoDB connection failed. Retrying in 5 seconds...', err.message);
+        setTimeout(connectWithRetry, 5000); // Retry after 5 seconds
     }
 };
+
 connectWithRetry();
 
 // Server setup
