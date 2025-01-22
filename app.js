@@ -22,6 +22,7 @@ app.use(
   cors({
     credentials: true,
     origin: 'https://frontend-five-mauve.vercel.app',
+    methods: ["GET", "POST", "PUT", "DELETE"]
   })
 );
 
