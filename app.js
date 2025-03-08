@@ -55,6 +55,26 @@ app.get('/', (req, res) => {
   });
 });
 
+const axios = require('axios');
+
+app.use('/api/frontend', async (req, res) => {
+  try {
+    const response = await axios({
+      method: req.method,
+      url: `https://frontend-five-mauve.vercel.app${req.originalUrl.replace('/api/frontend', '')}`,
+      data: req.body,
+      headers: req.headers,
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({ 
+      error: 'Proxy Error', 
+      details: error.message 
+    });
+  }
+});
+
 // Handle all other undefined routes
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} ! Please try a different route.`, 404));
